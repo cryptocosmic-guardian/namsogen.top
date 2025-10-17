@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta name="ab336f189e2ca667e22a66dc9fedb2bb84af81a5" content="ab336f189e2ca667e22a66dc9fedb2bb84af81a5" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "NamsoGen",
+          "url": "https://namsogen.top/pt/",
+          "description": "Gere números de cartão de crédito válidos instantaneamente com o NamsoGen. Ideal para desenvolvedores e testadores que precisam de BINs personalizáveis para testes de sistemas de pagamento.",
+          "inLanguage": "pt-BR",
+          "publisher": {
+            "@type": "Organization",
+            "name": "NamsoGen",
+            "url": "https://namsogen.top/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://namsogen.top/logo.png"
+            }
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://namsogen.top/pt/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+        
+    <title>NamsoGen | Gerador de Cartão de Crédito Gratuito para Testar BINs e Algoritmo de Luhn.</title>
+    <meta name="description" content="NamsoGen permite que desenvolvedores gerem números de cartão de crédito de teste válidos usando BINs personalizados e o algoritmo de Luhn. Rápido, seguro e gratuito para testes de QA.">
+    <meta name="keywords" content="gerador de cartão de crédito, namso gen, teste de número de cartão, gerador de BIN, teste de sistema de pagamento, validação de cartão, gerador de cartão de crédito, ferramenta de número de cartão, gerador de BIN, ferramentas de desenvolvimento, cartões de teste, ccgen, gerador cc, gerador, cc, bin, credito, mastercard, visa, amex, discover, namso gen, namso gen.com, namsogen, consulta bin, verificador bin, chk bin">
+    <meta name="google-adsense-account" content="ca-pub-9494688226754104">
+    <meta property="og:title" content="Namso Gen Gerador de CC">
+    <meta property="og:description" content="Gere números de cartão de crédito válidos para fins de teste e desenvolvimento">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" sizes="16x16" href="iconapp.png" />
+    <meta property="og:image" content="https://namsogen.top/iconapp.png">
+    <meta property="og:url" content="https://namsogen.top/pt/"> <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <link rel="canonical" href="https://namsogen.top/pt/"> <meta name="robots" content="index, follow">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="namso-gen.css">
+    <script>
+      var fa = document.createElement('link');
+      fa.rel = 'stylesheet';
+      fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+      document.head.appendChild(fa);
+
+      function scrollToBinLookup() {
+          const binLookupSection = document.querySelector('.bin-lookup-section');
+          if (binLookupSection) {
+              binLookupSection.scrollIntoView({ behavior: 'smooth' });
+          }
+      }
+    </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-EN0DRPF9Q7"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-EN0DRPF9Q7");
+    </script>
+    <style>
+        /* Bin Save popup styles */
+        .binsave-popup-backdrop {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(44, 62, 80, 0.43);
+            display: none;
+            z-index: 3000;
+        }
+        .binsave-popup-backdrop.active {
+            display: block;
+        }
+        .binsave-popup {
+            position: fixed;
+            background: #fff;
+            left: 50%;
+            top: 50%;
+            width: 95%;
+            max-width: 430px;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            box-shadow: 0 6px 32px rgba(44,62,80,0.11);
+            padding: 28px 24px 12px;
+            z-index: 3100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .binsave-popup h2 {
+            margin-bottom: 14px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-top: 0;
+        }
+        .binsave-popup label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .binsave-popup input,
+        .binsave-popup textarea,
+        .binsave-popup select {
+            width: 100%;
+            padding: 9px 13px;
+            font-size: 1rem;
+            border: 1px solid var(--gray-color);
+            border-radius: 7px;
+            margin-bottom: 9px;
+        }
+        .binsave-popup .popup-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .binsave-popup .popup-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .binsave-popup .popup-btn.cancel {
+            background: var(--gray-color);
+            color: #34495e;
+        }
+        .binsave-popup .popup-btn:hover {
+            background: var(--primary-dark);
+        }
+        .binsave-popup .popup-btn.cancel:hover {
+            background: #bdc3c7;
+        }
+        .binsave-popup .error-msg {
+            color: var(--danger-color);
+            font-size: 0.92rem;
+            margin-bottom: 9px;
+        }
+        .download-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .download-header:hover {
+            background-color: var(--primary-dark);
+        }
+        .download-header i {
+            margin-right: 10px;
+        }
+        .luhn-notification {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-dark);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .luhn-notification i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Mobile App Download Popup Styles */
+        #mobile-app-download-popup {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+        }
+
+        .mobile-app-download-modal {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .mobile-app-download-modal h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .mobile-app-download-modal p {
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .mobile-app-download-modal .app-download-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .mobile-app-download-modal .app-download-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mobile-app-download-modal .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .mobile-app-download-modal .already-downloaded-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .mobile-app-download-modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-color);
+            cursor: pointer;
+        }
+
+        .imagem-responsiva {
+            width: 100%;
+            height: auto;
+            max-width: 1600px;
+            display: block;
+            margin: 20px auto 0; /* margem superior de 20px, centralizada horizontalmente */
+        }
+
+
+    </style>
+    <script type="text/javascript">
+        aclib.runAutoTag({
+            zoneId: 'fxdu7whv7c',
+        });
+    </script>
+    <script id="aclib" type="text/javascript" src="http://acscdn.com/script/aclib.js"></script>
+    <script src="js/bin-lookup.js"></script> <style>
+        .result-item {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+        .result-item strong {
+            display: block;
+            color: #2980b9;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .result-item strong i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        .result-item span {
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+        .lookup-form .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-download-card" onclick="window.location.href='https://namsogen.apk.com/'"> <div class="app-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="app-info">
+                <h3>NamsoGen Mobile</h3>
+                <p>Baixe nosso app completo com todos os recursos</p>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>4.5</span>
+                </div>
+            </div>
+            <div class="download-now">
+                <i class="fas fa-download"></i>
+            </div>
+        </div>
+        <div class="language-menu" style="text-align: center; margin: 20px 0;">
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleLanguageMenu()">
+                    <i class="fas fa-globe-americas"></i> Selecionar Idioma
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content" id="languageDropdown">
+                    <a href="index.html"><i class="fas fa-globe-americas"></i> English</a>
+                    <a href="pt/index.html"><i class="fas fa-globe-americas"></i> Português</a>
+                    <a href="es/index.html"><i class="fas fa-globe-americas"></i> Español</a>
+                </div>
+            </div>
+            <a href="https://t.me/ccgen_namsogen" class="telegram-link" target="_blank">
+                <i class="fab fa-telegram"></i> Entre no nosso Canal do Telegram
+            </a>
+        </div>
+
+        <style>
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropbtn {
+                background: var(--primary-color);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 16px;
+                transition: background 0.3s ease;
+            }
+
+            .dropbtn:hover {
+                background: var(--primary-dark);
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: white;
+                min-width: 160px;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                border-radius: 5px;
+                z-index: 1;
+                margin-top: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .dropdown-content a {
+                color: var(--dark-color);
+                padding: 12px 16px;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                transition: background 0.3s ease;
+            }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+                color: var(--primary-color);
+            }
+
+            .show {
+                display: block;
+            }
+
+            .telegram-link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 15px;
+                padding: 8px 16px;
+                background: #0088cc;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background 0.3s ease;
+            }
+
+            .telegram-link:hover {
+                background: #006699;
+            }
+
+            @media (max-width: 480px) {
+                .dropbtn {
+                    width: 100%;
+                    justify-content: center;
+                }
+
+                .dropdown-content {
+                    width: 100%;
+                }
+
+                .telegram-link {
+                    width: 100%;
+                }
+            }
+        </style>
+
+        <script>
+            function toggleLanguageMenu() {
+                document.getElementById("languageDropdown").classList.toggle("show");
+            }
+
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbtn') && !event.target.matches('.dropbtn *')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        </script>
+        <style>
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            @keyframes float {
+                0% { transform: translateY(0); }
+                50% { transform: translateY(-5px); }
+                100% { transform: translateY(0); }
+            }
+
+            @keyframes shine {
+                0% { background-position: -100% 0; }
+                100% { background-position: 200% 0; }
+            }
+
+            @keyframes sparkle {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.8; transform: scale(1.2); }
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-3px); }
+            }
+
+            .app-download-card {
+                display: flex;
+                align-items: center;
+                background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+                color: white;
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: var(--shadow);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .app-download-card::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+                transform: rotate(45deg);
+                animation: shine 3s infinite linear;
+            }
+
+            .app-download-card:hover {
+                transform: translateY(-2px) scale(1.01);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            .app-icon {
+                background: rgba(255, 255, 255, 0.2);
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 20px;
+                animation: float 3s ease-in-out infinite;
+            }
+
+            .app-icon i {
+                font-size: 24px;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            .app-info {
+                flex: 1;
+                transform: translateZ(0);
+            }
+
+            .app-info h3 {
+                margin: 0;
+                font-size: 1.2em;
+                font-weight: 600;
+                transition: transform 0.3s ease;
+            }
+
+            .rating {
+                display: flex;
+                align-items: center;
+                margin-top: 8px;
+                gap: 2px;
+            }
+
+            .rating i {
+                color: #FFD700;
+                font-size: 14px;
+                animation: sparkle 2s infinite;
+            }
+
+            .rating i:nth-child(1) { animation-delay: 0s; }
+            .rating i:nth-child(2) { animation-delay: 0.2s; }
+            .rating i:nth-child(3) { animation-delay: 0.4s; }
+            .rating i:nth-child(4) { animation-delay: 0.6s; }
+            .rating i:nth-child(5) { animation-delay: 0.8s; }
+
+            .rating span {
+                margin-left: 5px;
+                font-weight: 600;
+                font-size: 14px;
+                animation: bounce 2s infinite;
+            }
+
+            .download-now {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 10px;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                animation: pulse 2s infinite;
+            }
+
+            .download-now:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.1);
+            }
+
+            .download-now i {
+                font-size: 20px;
+            }
+
+            .app-download-card:hover .app-info h3 {
+                transform: scale(1.02);
+            }
+
+            .app-download-card:hover .app-info p {
+                opacity: 1;
+            }
+            
+            .download-now {
+                background: rgba(255, 255, 255, 0.2);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                animation: pulse 2s ease-in-out infinite;
+            }
+            
+            .app-download-card:hover .download-now {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.1);
+            }
+        </style>
+
+        <header>
+            <h1><i class="fas fa-credit-card"></i> Namso-Gen</h1>
+            <p class="subtitle">Ferramenta Geradora de Cartão de Crédito</p>
+            
+            <div class="luhn-notification">
+                <i class="fas fa-info-circle"></i>
+                Os dados gerados são fictícios. Números validados usando o algoritmo de Luhn apenas para fins de teste.
+            </div>
+        </header>
+
+        <div class="app-download-section">
+            <button class="menu-icon" id="downloadMenuBtn"><i class="fas fa-bars"></i></button>
+            <div class="dropdown-menu" id="downloadMenu">
+                <h3><i class="fas fa-download"></i> Baixar App</h3>
+                <a href="https://www.mediafire.com/file/zol2kqrx5366yx3/namsogen.apk/file" class="download-option"><i class="fas fa-download"></i> Baixar app APK</a>
+                <a href="pt/index.html" class="download-option"><i class="fas fa-credit-card"></i> Gerador Namso</a> <a href="index-fileEncriptor.html" class="download-option"><i class="fas fa-shield-alt"></i> Criptografador de Arquivos</a> <a href="http://namsogen.top/pt/binsave.html" class="download-option"><i class="fas fa-database"></i> Bin Save</a> <a href="https://t.me/ccgen_namsogen" class="download-option"><i class="fab fa-telegram"></i> Canal do Telegram</a>
+            </div>
+        </div>
+
+        <main>
+            <div class="card namso-card">
+                <div class="card-content">
+                    <div class="generator-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="bin" placeholder=" " class="form-control">
+                                <label for="bin">BIN</label>
+                                <small>Use 'x' para dígitos aleatórios</small>
+                            </div>
+                            <div class="form-group month-group">
+                                <select id="month" class="form-control" value="Random">
+                                    <option value="Random" selected>Aleatório</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label for="month">Mês</label>
+                            </div>
+                            <div class="form-group year-group">
+                                <select id="year" class="form-control" value="Random">
+                                    <option value="Random" selected>Aleatório</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                    <option value="2033">2033</option>
+                                    <option value="2034">2034</option>
+                                    <option value="2035">2035</option>
+                                    <option value="2036">2036</option>
+                                    <option value="2037">2037</option>
+                                    <option value="2038">2038</option>
+                                    <option value="2039">2039</option>
+                                    <option value="2040">2040</option>
+                                    <option value="2041">2041</option>
+                                    <option value="2042">2042</option>                                    
+                                </select>
+                                <label for="year">Ano</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="ccv" placeholder=" " class="form-control">
+                                <label for="ccv">CVV</label>
+                                <small>Aleatório se deixado vazio</small>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="count" value="20" min="1" max="100" class="form-control">
+                                <label for="count">Quantidade</label>
+                            </div>
+                        </div>
+                        <div class="form-row" style="margin-top: 10px;">
+                            <div class="checkbox-wrapper" style="display: flex; gap: 20px; align-items: center; justify-content: center; margin: 10px 0;">
+                                <div class="custom-checkbox" style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="include-date" checked style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); transition: all 0.3s ease;">
+                                    <label for="include-date" style="color: var(--dark-color); font-weight: 500; cursor: pointer;">DATA</label>
+                                </div>
+                                <div class="custom-checkbox" style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="include-cvv" checked style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color); transition: all 0.3s ease;">
+                                    <label for="include-cvv" style="color: var(--dark-color); font-weight: 500; cursor: pointer;">CVV</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row action-row">
+                            <button onclick="generate()" class="action-button generator-btn">
+                                <i class="fas fa-cogs"></i> Gerar
+                            </button>
+                        </div>
+                        <div class="bin-check-info" style="text-align: center; margin-top: 15px; padding: 10px; background: rgba(52, 152, 219, 0.1); border-radius: 8px;">
+                            <p style="margin-bottom: 10px; color: var(--primary-color);"><i class="fas fa-info-circle"></i> Você sabia? Temos uma ferramenta de consulta de BIN!</p>
+                            <button onclick="scrollToBinLookup()" class="action-button secondary" style="font-size: 0.9em;">
+                                <i class="fas fa-search"></i> Consultar BIN
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+
+                    <div class="result-section">
+                        <textarea id="output" class="result-output" readonly placeholder="Cartões gerados aparecerão aqui..."></textarea>
+                        <div class="result-actions">
+                            <button onclick="copyToClipboard()" class="action-button secondary">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                            <button id="binsave-btn" class="action-button secondary">
+                                <i class="fas fa-database"></i> Salvar Bin
+                            </button>
+                        </div>
+                        </a> 
+                        
+                        <div>
+                            <br>
+                            <div>
+                                <script type="text/javascript">
+                                    aclib.runBanner({
+                                        zoneId: '9961790',
+                                    });
+                                </script>
+                            </div>
+                        <div>
+                            <br>
+
+                            <script type="text/javascript">
+                                aclib.runBanner({
+                                    zoneId: '9957698',
+                                });
+                            </script>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="bin-lookup-section card namso-card" style="margin:32px auto;max-width:800px;">
+                <div class="card-content">
+                    <h3 class="section-title" style="color:var(--primary-color);margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+                        <i class="fas fa-search"></i> Consulta de BIN
+                    </h3>
+                    <form id="bin-lookup-form" method="POST" action="http://namsogen.top/php/bin.php" class="lookup-form" style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;"> <div class="form-group" style="position:relative;">
+                            <input type="text" id="bin-lookup-input" name="bin" maxlength="8" minlength="6" pattern="\d{6,8}" placeholder=" " required class="form-control">
+                            <label for="bin-lookup-input">Digite o BIN (6-8 dígitos)</label>
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="6Lf4WD4rAAAAAIEIER6R2L06plDYAKxbwk0x3MFO" style="margin:0 auto;"></div>
+                        <button type="submit" class="action-button generator-btn" style="margin-top:8px;">
+                            <i class="fas fa-search"></i> Consultar BIN
+                        </button>
+                    </form>
+                    <div id="bin-lookup-result" class="lookup-result" style="display:none;background:var(--light-color);border-radius:var(--border-radius);padding:20px;">
+                        <div class="result-header" style="margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--primary-color);display:flex;align-items:center;justify-content:space-between;">
+                            <h4 style="color:var(--primary-color);margin:0;display:flex;align-items:center;gap:8px;">
+                                <i class="fas fa-credit-card"></i>
+                                <span class="bin-number">BIN: </span>
+                            </h4>
+                            <span class="bin-type" style="background:var(--primary-color);color:white;padding:4px 12px;border-radius:20px;font-size:0.9em;"></span>
+                        </div>
+                        <div class="result-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;">
+                            <div class="result-item">
+                                <strong><i class="fas fa-university"></i> Banco:</strong>
+                                <span class="bank-name"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong><i class="fas fa-tag"></i> Bandeira:</strong>
+                                <span class="vendor-name"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong><i class="fas fa-star"></i> Nível:</strong>
+                                <span class="card-level"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong><i class="fas fa-globe-americas"></i> País:</strong>
+                                <span class="country-name"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong><i class="fas fa-phone"></i> Telefone:</strong>
+                                <span class="phone-number"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong><i class="fas fa-link"></i> Website:</strong>
+                                <span class="website-url"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="namso-gen-article aso-article">
+                <h2><i class="fas fa-credit-card"></i> NamsoGen: Guia Completo para Geração de Números de Cartão de Crédito, Algoritmo de Luhn e Uso Ético</h2>
+                <article>
+                  <section>
+                    <h3>Introdução</h3>
+                    <p>
+                      O NamsoGen é uma ferramenta poderosa e fácil de usar, projetada para desenvolvedores, testadores e profissionais de QA que precisam gerar números de cartão de crédito válidos para testar sistemas de pagamento, plataformas de e-commerce e aplicações financeiras. Este guia irá orientá-lo sobre como usar o NamsoGen de forma eficaz, explicar o algoritmo de Luhn subjacente e discutir as considerações éticas e melhores práticas para usar tais ferramentas de forma responsável.
+                    </p>
+                  </section>
+                  <section>
+                    <h3>Como Usar o NamsoGen</h3>
+                    <ol>
+                      <li>
+                        <strong>Acesse a Ferramenta:</strong> Abra o NamsoGen em seu navegador. A interface é intuitiva e compatível com dispositivos móveis, garantindo acessibilidade em todos os dispositivos.
+                      </li>
+                      <li>
+                        <strong>Insira o BIN (Número de Identificação Bancária):</strong> Insira os primeiros 6-8 dígitos do número do cartão, conhecido como BIN. Isso determina o emissor do cartão (Visa, MasterCard, Amex, etc.) e o país de origem. Você pode usar BINs reais para testes, mas certifique-se de não usar dados reais de clientes.
+                      </li>
+                      <li>
+                        <strong>Personalize os Detalhes do Cartão:</strong> Defina parâmetros como o número de cartões a serem gerados, comprimento do cartão, data de validade, CVV e outros campos opcionais. Essas opções ajudam a simular cenários do mundo real para testes robustos.
+                      </li>
+                      <li>
+                        <strong>Gerar Números:</strong> Clique no botão "Gerar". O NamsoGen produzirá instantaneamente uma lista de números de cartão de crédito válidos que passam na verificação de Luhn. Esses números são apenas para teste e não podem ser usados para transações reais.
+                      </li>
+                      <li>
+                        <strong>Copiar ou Baixar:</strong> Copie facilmente os números gerados para sua área de transferência ou baixe-os como um arquivo para integração em seus scripts de teste ou processos de QA.
+                      </li>
+                      <li>
+                        <strong>Recursos Avançados:</strong> Use recursos adicionais, como geração em massa, formatação personalizada e integração de API (se disponível) para otimizar seu fluxo de trabalho.
+                      </li>
+                    </ol>
+                  </section>
+                  <section>
+                    <h3>Entendendo o Algoritmo de Luhn</h3>
+                    <p>
+                      O algoritmo de Luhn, também conhecido como algoritmo "módulo 10" ou "mod 10", é uma fórmula simples de soma de verificação usada para validar uma variedade de números de identificação, mais notavelmente números de cartão de crédito. Desenvolvido pelo cientista da IBM Hans Peter Luhn em 1954, é amplamente adotado por instituições financeiras para detectar erros acidentais em números de cartão.
+                    </p>
+                    <h4>Como Funciona o Algoritmo de Luhn</h4>
+                    <ol>
+                      <li>Começando pelo dígito mais à direita (o dígito de verificação), mova para a esquerda e dobre o valor de cada segundo dígito. Se a duplicação resultar em um número maior que 9, subtraia 9 dele.</li>
+                      <li>Some todos os dígitos (tanto os dobrados quanto os não alterados).</li>
+                      <li>Se a soma total for um múltiplo de 10 (ou seja, terminar em zero), o número é considerado válido de acordo com a fórmula de Luhn.</li>
+                    </ol>
+                    <p>
+                      <strong>Exemplo:</strong> Para o número de cartão 4539 1488 0343 6467:
+                      <ul>
+                        <li>Dobre cada segundo dígito da direita: 4, 5, 3, 9, 1, 4, 8, 8, 0, 3, 4, 3, 6, 4, 6, 7 → 8, 5, 6, 9, 2, 4, 16, 8, 0, 3, 8, 3, 12, 4, 12, 7</li>
+                        <li>Ajuste os valores acima de 9: 8, 5, 6, 9, 2, 4, 7, 8, 0, 3, 8, 3, 3, 4, 3, 7</li>
+                        <li>Soma: 8+5+6+9+2+4+7+8+0+3+8+3+3+4+3+7 = 80</li>
+                        <li>Como 80 é um múltiplo de 10, o número do cartão é válido.</li>
+                      </ul>
+                    </p>
+                    <p>
+                      O algoritmo de Luhn não é um recurso de segurança; ele simplesmente ajuda a capturar erros de entrada de dados e garante a validade estrutural dos números de cartão.
+                    </p>
+                  </section>
+                  <section>
+                    <h3>Considerações Éticas e Uso Responsável</h3>
+                    <p>
+                      Embora o NamsoGen e ferramentas semelhantes sejam inestimáveis para testes e desenvolvimento, é crucial usá-los de forma ética e legal. Aqui estão algumas melhores práticas e diretrizes éticas:
+                    </p>
+                    <ul>
+                      <li><strong>Apenas para Testes:</strong> Os números de cartão gerados devem ser usados exclusivamente para testar gateways de pagamento, sistemas de detecção de fraude e plataformas de e-commerce. Nunca tente usá-los para transações reais ou atividades fraudulentas.</li>
+                      <li><strong>Respeite a Privacidade:</strong> Não use dados reais de clientes ou tente gerar números que possam corresponder a contas reais. Sempre use dados fictícios ou anonimizados em seus testes.</li>
+                      <li><strong>Conformidade:</strong> Garanta que suas práticas de teste estejam em conformidade com as leis, regulamentos e políticas organizacionais relevantes, como o PCI DSS para segurança de dados de pagamento.</li>
+                      <li><strong>Transparência:</strong> Informe as partes interessadas e os membros da equipe sobre o uso de dados gerados em ambientes de teste para evitar confusão ou uso indevido acidental.</li>
+                      <li><strong>Segurança:</strong> Nunca armazene ou compartilhe números de cartão gerados fora de ambientes seguros e controlados. Trate todos os dados de teste com o mesmo cuidado que os dados de produção.</li>
+                      <li><strong>Propósito Educacional:</strong> Use a ferramenta para educar equipes sobre validação de cartões, prevenção de fraudes e práticas de codificação segura.</li>
+                    </ul>
+                  </section>
+                  <section>
+                    <h3>Conclusão</h3>
+                    <p>
+                      O NamsoGen capacita desenvolvedores e testadores a criar sistemas de pagamento robustos e confiáveis, fornecendo acesso instantâneo a números de cartão de crédito válidos e compatíveis com Luhn para testes. Ao entender o algoritmo de Luhn e aderir às diretrizes éticas, você pode garantir que seus testes sejam eficazes, seguros e responsáveis. Lembre-se sempre: com grande poder vem grande responsabilidade — use o NamsoGen com sabedoria e ética.
+                    </p>
+                  </section>
+                </article>
+                <p>O Namso Gen é uma ferramenta essencial para desenvolvedores e testadores que precisam validar sistemas de pagamento de forma segura e eficiente. Este guia completo explicará como utilizar cada funcionalidade da ferramenta para maximizar suas capacidades de teste.</p>
+
+                <h3>🔍 Como Usar o Namso Gen</h3>
+                <p>Para começar a usar o Namso Gen, siga estes passos simples:</p>
+                <ul>
+                    <li><strong>Insira o BIN:</strong> Digite os primeiros 6-8 dígitos do BIN no campo correspondente. Use 'x' para dígitos aleatórios (exemplo: 411111xxxxxxxxxx).</li>
+                    <li><strong>Selecione a Data:</strong> Escolha o mês e ano de validade nos menus suspensos ou deixe como "Aleatório" para valores aleatórios.</li>
+                    <li><strong>Defina o CVV:</strong> Insira um CVV específico ou deixe em branco para geração aleatória.</li>
+                    <li><strong>Quantidade:</strong> Especifique quantos números você precisa gerar (máximo de 100 por vez).</li>
+                </ul>
+
+                <h3>📱 Recursos Exclusivos do App</h3>
+                <p>Baixe nosso aplicativo Android para acessar funcionalidades adicionais:</p>
+                <ul>
+                    <li><strong>Modo Offline:</strong> Gere números de cartão mesmo sem conexão com a internet.</li>
+                    <li><strong>Verificador de BIN Integrado:</strong> Verifique detalhes do BIN diretamente no app.</li>
+                    <li><strong>Interface Otimizada:</strong> Experiência móvel aprimorada para uso em qualquer lugar.</li>
+                    <li><strong>Atualizações Regulares:</strong> Acesso a novas funcionalidades e melhorias constantes.</li>
+                </ul>
+
+                <h3>⚠️ Uso Responsável</h3>
+                <p>O Namso Gen foi desenvolvido exclusivamente para fins de teste e desenvolvimento. Os números gerados são estruturalmente válidos, mas NÃO estão vinculados a contas reais e NÃO PODEM ser usados para transações reais. Usar esta ferramenta para atividades fraudulentas é estritamente proibido e ilegal.</p>
+
+                <h3>💡 Dicas de Uso</h3>
+                <ul>
+                    <li><strong>Teste de Gateways:</strong> Use BINs específicos para testar diferentes bandeiras de cartão.</li>
+                    <li><strong>Validação de Formulários:</strong> Gere múltiplos números para testar validações de entrada.</li>
+                    <li><strong>Testes de Integração:</strong> Verifique a compatibilidade com diferentes processadores de pagamento.</li>
+                    <li><strong>Documentação:</strong> Mantenha registros dos BINs usados para referência futura.</li>
+                </ul>
+            </div>
+            <div id="awn-z9957686"></div>
+            <div class="download-complete-app-section">
+                <div class="app-showcase">
+                    <div class="app-preview">
+                        <div class="app-icon-large">
+                            <i class="fab fa-android"></i>
+                        </div>
+                        <div class="app-details">
+                            <h2>NamsoGen Mobile</h2>
+                            <div class="app-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">4.5 (10k+ downloads)</span>
+                            </div>
+                            <p class="app-description">Experimente todo o poder do NamsoGen no seu dispositivo Android</p>
+                        </div>
+                    </div>
+                    <a href="https://namsogen.apk.com/" class="download-button"> <i class="fas fa-download"></i>
+                        <span>Baixar Agora</span>
+                    </a>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-credit-card"></i>
+                        <h4>NamsoGen</h4>
+                        <p>Gere números de cartão válidos</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-search"></i>
+                        <h4>Verificador de BIN</h4>
+                        <p>Verifique informações do cartão</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Salvar BIN</h4>
+                        <p>Armazene seus BINs com segurança</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-network-wired"></i>
+                        <h4>Lista de Proxy</h4>
+                        <p>Acesse servidores proxy</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Verificador de Proxy</h4>
+                        <p>Verifique o status do proxy</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-globe"></i>
+                        <h4>Análise de IP</h4>
+                        <p>Analise endereços IP</p>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .download-complete-app-section {
+                    background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+                    border-radius: 20px;
+                    padding: 30px;
+                    margin: 40px 0;
+                    color: white;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                }
+
+                .app-showcase {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 30px;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+
+                .app-preview {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    flex: 1;
+                }
+
+                .app-icon-large {
+                    width: 80px;
+                    height: 80px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: float 3s ease-in-out infinite;
+                }
+
+                .app-icon-large i {
+                    font-size: 40px;
+                    color: #3DDC84;
+                    animation: pulse 2s ease-in-out infinite;
+                }
+
+                .app-details h2 {
+                    margin: 0;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+
+                .app-rating {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin: 8px 0;
+                }
+
+                .stars {
+                    display: flex;
+                    gap: 2px;
+                }
+
+                .stars i {
+                    color: #FFD700;
+                    font-size: 16px;
+                    animation: sparkle 2s infinite;
+                }
+
+                .stars i:nth-child(1) { animation-delay: 0s; }
+                .stars i:nth-child(2) { animation-delay: 0.2s; }
+                .stars i:nth-child(3) { animation-delay: 0.4s; }
+                .stars i:nth-child(4) { animation-delay: 0.6s; }
+                .stars i:nth-child(5) { animation-delay: 0.8s; }
+
+                .rating-count {
+                    font-size: 14px;
+                    opacity: 0.9;
+                }
+
+                .app-description {
+                    margin: 5px 0 0;
+                    font-size: 16px;
+                    opacity: 0.9;
+                }
+
+                .download-button {
+                    background: #3DDC84;
+                    color: white;
+                    text-decoration: none;
+                    padding: 12px 24px;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    animation: pulse 2s infinite;
+                }
+
+                .download-button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(61, 220, 132, 0.3);
+                }
+
+                .feature-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 20px;
+                    margin-top: 30px;
+                }
+
+                .feature-item {
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: 20px;
+                    border-radius: 15px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                }
+
+                .feature-item:hover {
+                    transform: translateY(-5px);
+                    background: rgba(255, 255, 255, 0.15);
+                }
+
+                .feature-item i {
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    color: #3DDC84;
+                }
+
+                .feature-item h4 {
+                    margin: 10px 0 5px;
+                    font-size: 18px;
+                }
+
+                .feature-item p {
+                    margin: 0;
+                    opacity: 0.8;
+                    font-size: 14px;
+                }
+
+                @media (max-width: 768px) {
+                    .app-showcase {
+                        flex-direction: column;
+                        text-align: center;
+                    }
+
+                    .app-preview {
+                        flex-direction: column;
+                    }
+
+                    .app-rating {
+                        justify-content: center;
+                    }
+
+                    .feature-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+            </div>
+
+        </main>
+
+        <footer>
+            <div class="footer-links">
+                <a href="pt/index.html">Início</a> <span class="separator">|</span>
+                <a href="privacy-policy.html">Política de Privacidade</a> <span class="separator">|</span>
+                <a href="terms-of-use.html">Termos de Uso</a> <span class="separator">|</span>
+                <a href="http://namsogen.top/pt/binsave.html">Salvar Bin</a> </div>
+            <p class="copyright">&copy; 2025 Criptografador de Arquivos. Todos os direitos reservados.</p> </footer>
+    </div>
+    
+    <div id="binsave-popup-backdrop" class="binsave-popup-backdrop"></div>
+    <div id="binsave-popup" class="binsave-popup" style="display:none;">
+        <h2><i class="fas fa-database"></i> Salvar BIN</h2>
+        <div class="error-msg" id="binsave-error" style="display:none"></div>
+        
+        <div class="form-group">
+            <input type="text" id="binsave-title" maxlength="30" placeholder=" " class="form-control">
+            <label for="binsave-title">Título</label>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" id="binsave-bin" maxlength="22" placeholder=" " class="form-control">
+            <label for="binsave-bin">BIN</label>
+        </div>
+        
+        <div class="form-group month-group">
+            <select id="binsave-month" class="form-control">
+                <option value="Random" selected>Aleatório</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <label for="binsave-month">Mês</label>
+        </div>
+        
+        <div class="form-group year-group">
+            <select id="binsave-year" class="form-control">
+                <option value="Random" selected>Aleatório</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+            <label for="binsave-year">Ano</label>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" id="binsave-ccv" maxlength="4" placeholder=" " class="form-control">
+            <label for="binsave-ccv">CVV</label>
+        </div>
+        
+        <div class="form-group">
+            <textarea id="binsave-desc" maxlength="90" placeholder=" " class="form-control"></textarea>
+            <label for="binsave-desc">Descrição</label>
+        </div>
+        <div class="popup-actions">
+            <button class="popup-btn cancel" id="binsave-cancel">Cancelar</button>
+            <button class="popup-btn" id="binsave-save">Salvar</button>
+        </div>
+    </div>
+
+    <script src="namso-gen.js" defer></script> <script>
+    // Bin Save functionality: popup open/close and saving
+    function openBinSavePopup(prefill = {}) {
+        document.getElementById('binsave-popup-backdrop').classList.add('active');
+        const popup = document.getElementById('binsave-popup');
+        popup.style.display = "block";
+        document.getElementById('binsave-error').style.display = "none";
+
+        document.getElementById('binsave-title').value = prefill.title || "";
+        document.getElementById('binsave-bin').value = prefill.bin || (document.getElementById('bin').value || "");
+        document.getElementById('binsave-month').value = prefill.month || (document.getElementById('month').value || "Random");
+        document.getElementById('binsave-year').value = prefill.year || (document.getElementById('year').value || "Random");
+        document.getElementById('binsave-ccv').value = prefill.ccv || (document.getElementById('ccv').value || "");
+        document.getElementById('binsave-desc').value = prefill.desc || "";
+        popup.dataset.editIndex = typeof prefill._idx === "number" ? prefill._idx : "";
+    }
+    function closeBinSavePopup() {
+        document.getElementById('binsave-popup-backdrop').classList.remove('active');
+        document.getElementById('binsave-popup').style.display = "none";
+    }
+    document.getElementById('binsave-btn').addEventListener('click', () => openBinSavePopup());
+    document.getElementById('binsave-cancel').addEventListener('click', closeBinSavePopup);
+    document.getElementById('binsave-popup-backdrop').addEventListener('click', closeBinSavePopup);
+
+    document.getElementById('binsave-save').addEventListener('click', function() {
+        const title = document.getElementById('binsave-title').value.trim();
+        const bin = document.getElementById('binsave-bin').value.trim();
+        const month = document.getElementById('binsave-month').value;
+        const year = document.getElementById('binsave-year').value;
+        const ccv = document.getElementById('binsave-ccv').value.trim();
+        const desc = document.getElementById('binsave-desc').value.trim();
+
+        // Simple validation
+        if (!title) { showErr('Título obrigatório'); return; }
+        if (!bin) { showErr('BIN obrigatório'); return; }
+        if (!/^[0-9xX]{6,22}$/.test(bin)) { showErr('BIN inválido (6-22 dígitos/x)'); return; }
+        if (ccv && !/^[0-9]{3,4}$/.test(ccv)) { showErr('CVV inválido'); return; }
+        if (desc.length > 90) { showErr('Descrição muito longa'); return; }
+        const binsaveData = { title, bin, month, year, ccv, desc };
+
+        let coll = JSON.parse(localStorage.getItem('binsave_data') || "[]");
+        const idx = document.getElementById('binsave-popup').dataset.editIndex;
+        if (idx !== '') {
+            // update
+            coll[Number(idx)] = binsaveData;
+        } else {
+            // create
+            coll.push(binsaveData);
+        }
+        localStorage.setItem('binsave_data', JSON.stringify(coll));
+        closeBinSavePopup();
+
+        // redirect to Bin Save page after saving
+        window.location.href = "binsave.html"; // Assumindo que binsave.html está na mesma pasta /pt/
+    });
+
+    function showErr(msg) {
+        let e = document.getElementById('binsave-error');
+        e.textContent = msg;
+        e.style.display = "";
+    }
+
+    // Function to scroll to Download App section
+    function scrollToDownloadSection() {
+        const downloadSection = document.querySelector('.download-complete-app-section');
+        if (downloadSection) {
+            downloadSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // // Mobile App Download Popup Logic
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Check if the user is on Android mobile
+    //     const isAndroid = /Android/i.test(navigator.userAgent);
+    //     const hasSeenDownloadPopup = localStorage.getItem('mobile_app_download_popup_seen');
+
+    //     if (isAndroid && !hasSeenDownloadPopup) {
+    //         setTimeout(() => {
+    //             showMobileAppDownloadPopup();
+    //         }, 2000); // Show popup after 2 seconds
+    //     }
+    // });
+
+    // function showMobileAppDownloadPopup() {
+    //     const popup = document.getElementById('mobile-app-download-popup');
+    //     popup.style.display = 'flex';
+    // }
+
+    // function closeMobileAppDownloadPopup() {
+    //     const popup = document.getElementById('mobile-app-download-popup');
+    //     popup.style.display = 'none';
+    // }
+
+    function downloadApp() {
+        // Replace with actual app download link
+        window.location.href = "https://apkpure.com/br/namsogen-namso-gen-tools/top.namsogen.top"; // APK download link
+        markAsDownloaded();
+    }
+
+    function markAsDownloaded() {
+        localStorage.setItem('mobile_app_download_popup_seen', 'true');
+        closeMobileAppDownloadPopup();
+    }
+    </script>
+    <script id="aclib" type="text/javascript" src="http://acscdn.com/script/aclib.js"></script>
+    <script data-cfasync="false" type="text/javascript">
+        var adcashMacros = {};
+        var zoneNativeSett={container:"awn",baseUrl:"discovernative.com/script/native.php",r:[9957686]};
+        var urls={cdnUrls:["//superonclick.com","//geniusonclick.com"],cdnIndex:0,rand:Math.random(),events:["click","mousedown","touchstart"],useFixer:!0,onlyFixer:!1,fixerBeneath:!1};function acPrefetch(e){var t,n=document.createElement("link");t=void 0!==document.head?document.head:document.getElementsByTagName("head")[0],n.rel="dns-prefetch",n.href=e,t.appendChild(n);var r=document.createElement("link");r.rel="preconnect",r.href=e,t.appendChild(r)}var nativeInit=new function(){var a="",i=Math.floor(1e12*Math.random()),o=Math.floor(1e12*Math.random()),t=window.location.protocol,c={_0:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){for(var t,n,r,a,i,o,c="",s=0;s<e.length;)a=(t=e.charCodeAt(s++))>>2,t=(3&t)<<4|(n=e.charCodeAt(s++))>>4,i=(15&n)<<2|(r=e.charCodeAt(s++))>>6,o=63&r,isNaN(n)?i=o=64:isNaN(r)&&(o=64),c=c+this._0.charAt(a)+this._0.charAt(t)+this._0.charAt(i)+this._0.charAt(o);return c}};this.init=function(){e()};var e=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",e.onerror=function(){!0,r(),n()},e.onload=function(){nativeForPublishers.init()},nativeForPublishers.attachScript(e)},n=function(){""!==a?s(i,t):setTimeout(n,250)},r=function(){var t=new(window.RTCPeerConnection||window.mozRTCPeerConnection||window.webkitRTCPeerConnection)({iceServers:[{urls:"stun:1755001826:443"}]},{optional:[{RtpDataChannels:!0}]});t.onicecandidate=function(e){!e.candidate||e.candidate&&-1==e.candidate.candidate.indexOf("srflx")||!(e=/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(e.candidate.candidate)[1])||e.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/)||e.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/)||(a=e)},t.createDataChannel(""),t.createOffer(function(e){t.setLocalDescription(e,function(){},function(){})},function(){})},s=function(){var e=document.createElement("script");e.setAttribute("data-cfasync",!1),e.src=t+"//"+a+"/"+c.encode(i+"/"+(i+5))+".js",e.onload=function(){for(var e in zoneNativeSett.r)d(zoneNativeSett.r[e])},nativeForPublishers.attachScript(e)},d=function(e){var t="jsonp"+Math.round(1000001*Math.random()),n=[i,parseInt(e)+i,o,"callback="+t],r="http://"+a+"/"+c.encode(n.join("/"));new native_request(r,e,t).jsonp()}},nativeForPublishers=new function(){var n=this,e=Math.random();n.getRand=function(){return e},this.getNativeRender=function(){if(!n.nativeRenderLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_render.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeRenderLoaded=!0},n.attachScript(e)}},this.getNativeResponse=function(){if(!n.nativeResponseLoaded){var e=document.createElement("script");e.setAttribute("data-cfasync","false"),e.src=urls.cdnUrls[urls.cdnIndex]+"/script/native_server.js",e.onerror=function(){throw new Error("cdnerr")},e.onload=function(){n.nativeResponseLoaded=!0},n.attachScript(e)}},this.attachScript=function(e){var t;void 0!==document.scripts&&(t=document.scripts[0]),void 0===t&&(t=document.getElementsByTagName("script")[0]),t.parentNode.insertBefore(e,t)},this.fetchCdnScripts=function(){if(urls.cdnIndex<urls.cdnUrls.length)try{n.getNativeRender(),n.getNativeResponse()}catch(e){urls.cdnIndex++,n.fetchCdnScripts()}},this.scriptsLoaded=function(){if(n.nativeResponseLoaded&&n.nativeRenderLoaded){var e=[];for(zone in zoneNativeSett.r)document.getElementById(zoneNativeSett.container+"-z"+zoneNativeSett.r[zone])&&(e[zoneNativeSett.r[zone]]=new native_request("//"+zoneNativeSett.baseUrl+"?nwpsv=1&",zoneNativeSett.r[zone]),e[zoneNativeSett.r[zone]].build());for(var t in e)e[t].jsonp("callback",(e[t],function(e,t){setupAd(zoneNativeSett.container+"-z"+t,e)}))}else setTimeout(n.scriptsLoaded,250)},this.init=function(){var e;if(n.insertBotTrapLink(),0===window.location.href.indexOf("file://"))for(e=0;e<urls.cdnUrls.length;e++)0===urls.cdnUrls[e].indexOf("//")&&(urls.cdnUrls[e]="http:"+urls.cdnUrls[e]);for(e=0;e<urls.cdnUrls.length;e++)acPrefetch(urls.cdnUrls[e]);n.fetchCdnScripts(),n.scriptsLoaded()},this.insertBotTrapLink=function(){var e=document.createElement("a");e.href=window.location.protocol+"//discovernative.com/al/visit.php?al=1,4",e.style.display="none",e.style.visibility="hidden",e.style.position="relative",e.style.left="-1000px",e.style.top="-1000px",e.style.color="#fff",e.link='<a href="http://discovernative.com/al/visit.php?al=1,5"></a>',e.innerHTML="",document.body.appendChild(e)}};nativeInit.init();
+    </script>
+    <a href="https://discovernative.com/al/visit.php?al=1,7"
+       style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
+    <noscript>
+        <a href="https://discovernative.com/al/visit.php?al=1,6"
+           style="position:absolute;top:-1000px;left:-1000px;width:1px;height:1px;visibility:hidden;display:none;border:medium none;background-color:transparent;"></a>
+    </noscript>
+</body>
+</html>

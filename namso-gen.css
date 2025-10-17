@@ -1,0 +1,173 @@
+/* Namso Generator Specific Styles */
+.namso-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.generator-form {
+    margin-bottom: 25px;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.month-group, .year-group {
+    min-width: 120px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: transparent;
+}
+
+.form-control:focus,
+.form-control:not(:placeholder-shown) {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.form-group label {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    font-size: 0.8rem;
+    background-color: var(--card-color);
+    padding: 0 5px;
+    transform-origin: left top;
+    transform: scale(0.85);
+}
+
+.month-group label,
+.year-group label {
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    font-size: 0.8rem;
+    background-color: var(--card-color);
+    padding: 0 5px;
+    transform-origin: left top;
+    transform: scale(0.85);
+}
+
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: transparent;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.form-group small {
+    display: block;
+    color: var(--gray-color);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+.action-row {
+    justify-content: center;
+}
+
+.generator-btn {
+    background-color: var(--secondary-color);
+    max-width: 300px;
+}
+
+.generator-btn:hover {
+    background-color: var(--secondary-dark);
+}
+
+.result-section {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+}
+
+.result-output {
+    width: 100%;
+    min-height: 200px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-family: monospace;
+    margin-bottom: 15px;
+    resize: vertical;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.secondary {
+    background-color: var(--dark-color);
+    max-width: 200px;
+}
+
+.secondary:hover {
+    background-color: var(--primary-color);
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .form-group {
+        width: 100%;
+    }
+
+    /* NEW: Specifically target the row with month and year */
+    .form-row:nth-child(2) {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .form-row:nth-child(2) .form-group {
+        flex: 1;
+        min-width: 0; /* Allow flex items to shrink */
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+    
+    .action-button {
+        width: 100%;
+        max-width: none;
+    }
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bin Save - Your Saved BINs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="namso-gen.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="iconapp.png" />
+    <meta property="og:image" content="https://namsogen.top/iconapp.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .binsave-list-section {
+            max-width: 900px;
+            margin: 0 auto 32px;
+        }
+        .binsave-list-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .binsave-card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(340px,1fr));
+            gap: 30px;
+        }
+        .binsave-card {
+            background: var(--card-color);
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            padding: 28px 18px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+        .binsave-card .card-title {
+            font-size: 1.22rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 2px;
+        }
+        .binsave-card .desc {
+            color: var(--gray-color);
+            font-size: 1.01rem;
+            margin-bottom: 5px;
+        }
+        .binsave-row {
+            font-size: 1.06rem;
+            margin-bottom: 2px;
+        }
+        .binsave-row span {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-right: 7px;
+        }
+        .binsave-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 9px;
+        }
+        .binsave-actions .action-button {
+            min-width: 95px;
+            font-size: 1.02rem;
+            padding: 8px 0;
+        }
+        .binsave-empty-msg {
+            color: var(--gray-color);
+            font-size: 1.08rem;
+            padding: 18px 2px;
+            text-align: center;
+        }
+        /* Edit popup uses same styles as on namsogen */
+        .binsave-popup-backdrop {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(44, 62, 80, 0.43);
+            display: none;
+            z-index: 3000;
+        }
+        .binsave-popup-backdrop.active {
+            display: block;
+        }
+        .binsave-popup {
+            position: fixed;
+            background: #fff;
+            left: 50%;
+            top: 50%;
+            width: 95%;
+            max-width: 430px;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            box-shadow: 0 6px 32px rgba(44,62,80,0.11);
+            padding: 28px 24px 12px;
+            z-index: 3100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .binsave-popup h2 {
+            margin-bottom: 14px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-top: 0;
+        }
+        .binsave-popup label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .binsave-popup input,
+        .binsave-popup textarea,
+        .binsave-popup select {
+            width: 100%;
+            padding: 9px 13px;
+            font-size: 1rem;
+            border: 1px solid var(--gray-color);
+            border-radius: 7px;
+            margin-bottom: 9px;
+        }
+        .binsave-popup .popup-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .binsave-popup .popup-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .binsave-popup .popup-btn.cancel {
+            background: var(--gray-color);
+            color: #34495e;
+        }
+        .binsave-popup .popup-btn:hover {
+            background: var(--primary-dark);
+        }
+        .binsave-popup .popup-btn.cancel:hover {
+            background: #bdc3c7;
+        }
+        .binsave-popup .error-msg {
+            color: var(--danger-color);
+            font-size: 0.92rem;
+            margin-bottom: 9px;
+        }
+        
+        /* Remove Mobile App Download Popup Styles */
+        #mobile-app-download-popup,
+        .mobile-app-download-modal {
+            display: none !important;
+        }
+    </style>
+        <!-- Google tag (gtag.js) -->
+        <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-EN0DRPF9Q7"
+      ></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-EN0DRPF9Q7");
+      </script>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-database"></i> Bin Save</h1>
+            <p class="subtitle">Manage Your BINs and Saved Parameters Directly in Your Browser</p>
+        </header>
+
+        <div class="app-download-section">
+            <button class="menu-icon" id="downloadMenuBtn"><i class="fas fa-bars"></i></button>
+            <div class="dropdown-menu" id="downloadMenu">
+                <h3><i class="fas fa-download"></i> Download App</h3>
+                <a href="https://www.mediafire.com/file/zol2kqrx5366yx3/namsogen.apk/file" class="download-option"><i class="fas fa-download"></i> Download app APK</a>
+                <a href="index.html" class="download-option"><i class="fas fa-credit-card"></i> Namso Generator</a>
+                <a href="index-fileEncriptor.html" class="download-option"><i class="fas fa-shield-alt"></i> File Encryptor</a>
+                <a href="binsave.html" class="download-option"><i class="fas fa-database"></i> Bin Save</a>
+                <a href="https://t.me/ccgen_namsogen" class="download-option"><i class="fab fa-telegram"></i> Telegram Channel</a>
+            </div>
+        </div>
+
+        <main>
+            <section class="binsave-list-section">
+                <div class="binsave-list-title"><i class="fas fa-database"></i> Saved BINs</div>
+                <div id="binsave-list" class="binsave-card-list"></div>
+                <div id="binsave-empty" class="binsave-empty-msg" style="display:none;">No BINs saved yet.</div>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <span class="separator">|</span>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <span class="separator">|</span>
+                <a href="terms-of-use.html">Terms of Use</a>
+                <span class="separator">|</span>
+                <a href="http://namsogen.top/namso-gen.html">Namso Generator</a>
+            </div>
+            <p class="copyright">&copy; 2025 File Encryptor. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Edit BIN Save Popup -->
+    <div id="binsave-popup-backdrop" class="binsave-popup-backdrop"></div>
+    <div id="binsave-popup" class="binsave-popup" style="display:none;">
+        <h2><i class="fas fa-database"></i> Save BIN</h2>
+        <div class="error-msg" id="binsave-error" style="display:none"></div>
+        
+        <label for="binsave-title">Title</label>
+        <input type="text" id="binsave-title" maxlength="30" placeholder="Title for identification" />
+        
+        <label for="binsave-bin">BIN</label>
+        <input type="text" id="binsave-bin" maxlength="22" placeholder="BIN (e.g., 4111xxxxxxxxxxxx)" />
+        
+        <label for="binsave-month">Month</label>
+        <select id="binsave-month">
+            <option value="Random" selected>Random</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        
+        <label for="binsave-year">Year</label>
+        <select id="binsave-year">
+            <option value="Random" selected>Random</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+        </select>
+        
+        <label for="binsave-ccv">CVV</label>
+        <input type="text" id="binsave-ccv" maxlength="4" placeholder="CVV" />
+        
+        <label for="binsave-desc">Description</label>
+        <textarea id="binsave-desc" maxlength="90" placeholder="Description (max 90 characters)"></textarea>
+        
+        <div class="popup-actions">
+            <button class="popup-btn cancel" id="binsave-cancel">Cancel</button>
+            <button class="popup-btn" id="binsave-save">Save</button>
+        </div>
+    </div>
+    <script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9251831,document.createElement('script'))</script>
+    <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('vemtoutcheeg.com',9251929,document.createElement('script'))</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // App download menu logic
+        const downloadMenuBtn = document.getElementById('downloadMenuBtn');
+        const downloadMenu = document.getElementById('downloadMenu');
+        downloadMenuBtn.addEventListener('click', function() {
+            downloadMenu.classList.toggle('active');
+        });
+        document.addEventListener('click', function(event) {
+            if (!downloadMenuBtn.contains(event.target) && !downloadMenu.contains(event.target)) {
+                downloadMenu.classList.remove('active');
+            }
+        });
+
+        // Remove Mobile App Download Popup related functions
+        function showMobileAppDownloadPopup() {}
+        function closeMobileAppDownloadPopup() {}
+        function downloadApp() {}
+        function markAsDownloaded() {}
+
+        // Disable popup checks
+        const isAndroid = false;
+        const hasSeenDownloadPopup = true;
+    });
+
+    function loadBinSaveList() {
+        const data = JSON.parse(localStorage.getItem('binsave_data') || "[]");
+        const list = document.getElementById('binsave-list');
+        const emptyMsg = document.getElementById('binsave-empty');
+        list.innerHTML = "";
+        if (data.length === 0) {
+            emptyMsg.style.display = "";
+            return;
+        }
+        emptyMsg.style.display = "none";
+        data.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = "binsave-card";
+            card.innerHTML = `
+                <div class="card-title">${item.title ? esc(item.title) : "(No Title)"}</div>
+                <div class="desc">${item.desc ? esc(item.desc) : ""}</div>
+                <div class="binsave-row"><span>BIN:</span> ${esc(item.bin)}</div>
+                <div class="binsave-row"><span>Month:</span> ${esc(item.month)}</div>
+                <div class="binsave-row"><span>Year:</span> ${esc(item.year)}</div>
+                <div class="binsave-row"><span>CVV:</span> ${item.ccv ? esc(item.ccv) : "<em>random</em>"}</div>
+                <div class="binsave-actions">
+                    <button class="action-button generator-btn" onclick="editBinSave(${idx})"><i class="fas fa-edit"></i> Edit</button>
+                    <button class="action-button secondary" onclick="deleteBinSave(${idx})"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function esc(str) {
+        return String(str).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+
+    window.onload = loadBinSaveList;
+
+    window.editBinSave = function(idx) {
+        const coll = JSON.parse(localStorage.getItem('binsave_data') || "[]");
+        const item = { ...(coll[idx]), _idx: idx };
+        openBinSavePopup(item);
+    };
+
+    window.deleteBinSave = function(idx) {
+        if (!confirm("Deseja excluir esse BIN salvo?")) return;
+        let coll = JSON.parse(localStorage.getItem('binsave_data') || "[]");
+        coll.splice(idx, 1);
+        localStorage.setItem('binsave_data', JSON.stringify(coll));
+        loadBinSaveList();
+    };
+
+    function openBinSavePopup(prefill = {}) {
+        document.getElementById('binsave-popup-backdrop').classList.add('active');
+        const popup = document.getElementById('binsave-popup');
+        popup.style.display = "block";
+        document.getElementById('binsave-error').style.display = "none";
+
+        document.getElementById('binsave-title').value = prefill.title || "";
+        document.getElementById('binsave-bin').value = prefill.bin || "";
+        document.getElementById('binsave-month').value = prefill.month || "Random";
+        document.getElementById('binsave-year').value = prefill.year || "Random";
+        document.getElementById('binsave-ccv').value = prefill.ccv || "";
+        document.getElementById('binsave-desc').value = prefill.desc || "";
+        popup.dataset.editIndex = typeof prefill._idx === "number" ? prefill._idx : "";
+    }
+
+    function closeBinSavePopup() {
+        document.getElementById('binsave-popup-backdrop').classList.remove('active');
+        document.getElementById('binsave-popup').style.display = "none";
+    }
+
+    document.getElementById('binsave-cancel').addEventListener('click', closeBinSavePopup);
+    document.getElementById('binsave-popup-backdrop').addEventListener('click', closeBinSavePopup);
+    document.getElementById('binsave-save').addEventListener('click', function() {
+        const title = document.getElementById('binsave-title').value.trim();
+        const bin = document.getElementById('binsave-bin').value.trim();
+        const month = document.getElementById('binsave-month').value;
+        const year = document.getElementById('binsave-year').value;
+        const ccv = document.getElementById('binsave-ccv').value.trim();
+        const desc = document.getElementById('binsave-desc').value.trim();
+
+        if (!title) { showErr('Title required'); return; }
+        if (!bin) { showErr('BIN required'); return; }
+        if (!/^[0-9xX]{6,22}$/.test(bin)) { showErr('Invalid BIN (6-22 digits/x)'); return; }
+        if (ccv && !/^[0-9]{3,4}$/.test(ccv)) { showErr('Invalid CVV'); return; }
+        if (desc.length > 90) { showErr('Description too long'); return; }
+        const binsaveData = { title, bin, month, year, ccv, desc };
+
+        let coll = JSON.parse(localStorage.getItem('binsave_data') || "[]");
+        const idx = document.getElementById('binsave-popup').dataset.editIndex;
+        if (idx !== '') {
+            coll[Number(idx)] = binsaveData;
+        } else {
+            coll.push(binsaveData);
+        }
+        localStorage.setItem('binsave_data', JSON.stringify(coll));
+        closeBinSavePopup();
+        loadBinSaveList();
+    });
+
+    function showErr(msg) {
+        let e = document.getElementById('binsave-error');
+        e.textContent = msg;
+        e.style.display = "";
+    }
+    </script>
