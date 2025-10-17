@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+            
+    <url>
+        <loc>https://namsogen.top/index.html</loc>
+        <lastmod>2025-10-17</lastmod> <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://namsogen.top/index.html"/>
+        <xhtml:link rel="alternate" hreflang="pt" href="https://namsogen.top/pt.html"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://namsogen.top/es.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://namsogen.top/index.html"/>
+    </url>
+
+    <url>
+        <loc>https://namsogen.top/pt.html</loc>
+        <lastmod>2025-10-17</lastmod> <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://namsogen.top/index.html"/>
+        <xhtml:link rel="alternate" hreflang="pt" href="https://namsogen.top/pt.html"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://namsogen.top/es.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://namsogen.top/index.html"/>
+    </url>
+
+    <url>
+        <loc>https://namsogen.top/es.html</loc>
+        <lastmod>2025-10-17</lastmod> <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://namsogen.top/index.html"/>
+        <xhtml:link rel="alternate" hreflang="pt" href="https://namsogen.top/pt.html"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://namsogen.top/es.html"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://namsogen.top/index.html"/>
+    </url>
+
+    <url>
+        <loc>https://namsogen.top/privacy-policy.html</loc>
+        <lastmod>2025-10-17</lastmod> <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>https://namsogen.top/terms-of-use.html</loc>
+        <lastmod>2025-10-17</lastmod> <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+</urlset>

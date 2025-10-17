@@ -1,79 +1,98 @@
-function onSubmit(token) {
-  document.querySelector('textarea[name="g-recaptcha-response"]').value = token;
-  document.getElementById('bin-lookup-form').dispatchEvent(new Event('submit'));
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('bin-lookup-form');
-  const resultDiv = document.getElementById('bin-lookup-result');
-  const recaptchaWidget = document.querySelector('.g-recaptcha');
+  const resultDiv = document.getElementById('bin-lookup-result'); // Target the main result/error div
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalButtonHTML = submitButton.innerHTML; 
 
-  // Adiciona elemento de loading
-  let loadingDiv = document.getElementById('bin-lookup-loading');
-  if (!loadingDiv) {
-    loadingDiv = document.createElement('div');
-    loadingDiv.id = 'bin-lookup-loading';
-    loadingDiv.style.display = 'none';
-    loadingDiv.style.textAlign = 'center';
-    loadingDiv.style.margin = '16px 0';
-    loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-    form.parentNode.insertBefore(loadingDiv, form.nextSibling);
-  }
+  // HTML structure for successful results
+  const successResultHTML = `
+      <hr> 
+      <h3 class="h6 text-muted mb-3">Lookup Results:</h3>
+      <div class="row g-3 result-grid"> 
+          <div class="col-sm-6 col-md-4 result-item"><strong>BIN</strong><span class="bin-number"></span></div>
+          <div class="col-sm-6 col-md-4 result-item"><strong>Brand</strong><span class="vendor-name"></span></div>
+          <div class="col-sm-6 col-md-4 result-item"><strong>Bank</strong><span class="bank-name"></span></div>
+          <div class="col-sm-6 col-md-4 result-item"><strong>Type</strong><span class="bin-type"></span></div>
+          <div class="col-sm-6 col-md-4 result-item"><strong>Level</strong><span class="card-level"></span></div>
+          <div class="col-sm-6 col-md-4 result-item"><strong>Country</strong><span class="country-name"></span></div>
+      </div>
+  `;
 
   form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    loadingDiv.style.display = 'block';
-    resultDiv.style.display = 'none';
-    // Se reCAPTCHA está presente, resetar após submit
-    if (typeof grecaptcha !== 'undefined') {
-      setTimeout(function() { grecaptcha.reset(); }, 500);
-    }
+    e.preventDefault(); 
+    resultDiv.style.display = 'none'; // Hide result area initially
+    resultDiv.innerHTML = ''; // Clear previous content
+
     const binValue = form.querySelector('input[name="bin"]').value;
-    const recaptchaToken = document.querySelector('textarea[name="g-recaptcha-response"]').value;
+    
+    let recaptchaToken = '';
+     if (typeof grecaptcha !== 'undefined') {
+        recaptchaToken = grecaptcha.getResponse();
+     }
+
+    // Basic reCAPTCHA check - display error in resultDiv
+    if (!recaptchaToken && typeof grecaptcha !== 'undefined' && grecaptcha.getResponse().length === 0) {
+       resultDiv.innerHTML = `<div class="bin-lookup-error-message"><i class="fas fa-exclamation-triangle"></i> Please complete the reCAPTCHA.</div>`;
+       resultDiv.style.display = 'block'; // Show the error message
+       return; 
+    }
+
     const payload = new URLSearchParams({
       bin: binValue,
       'g-recaptcha-response': recaptchaToken
     });
-    fetch('https://lind.uno/bins.php', {
+
+    // Show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Looking up...';
+
+    fetch('https://lind.uno/bins.php', { 
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
       body: payload.toString()
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+           return res.text().then(text => {
+               // Use the Portuguese error message for fetch/network errors as requested
+               throw new Error("Erro ao processar a requisição. Tente novamente."); 
+           });
+        }
+        return res.json(); 
+    })
     .then(data => {
-      loadingDiv.style.display = 'none';
-      resultDiv.style.display = 'block';
       if (data.error) {
-        resultDiv.innerHTML = `
-          <div style="color:red;text-align:center;padding:20px;">
-            <i class="fas fa-exclamation-circle"></i> ${data.error}
-          </div>`;
-        return;
-      }
-      document.querySelector('.bin-number').textContent   = `BIN: ${data.BIN}`;
-      document.querySelector('.vendor-name').textContent  = data.Vendor;
-      document.querySelector('.bank-name').textContent    = data.Bank;
-      document.querySelector('.bin-type').textContent     = data.Type;
-      document.querySelector('.card-level').textContent   = data.Level;
-      document.querySelector('.country-name').textContent = `${data.Country} (${data.CountryCode})`;
-      document.querySelector('.phone-number').textContent = data.Phone;
-      const websiteSpan = document.querySelector('.website-url');
-      if (data.Website && data.Website !== 'No information') {
-        websiteSpan.innerHTML = `<a href="//${data.Website}" target="_blank">${data.Website}</a>`;
+        // Display API error message inside the resultDiv
+        resultDiv.innerHTML = `<div class="bin-lookup-error-message"><i class="fas fa-exclamation-triangle"></i> ${data.error}</div>`;
+        resultDiv.style.display = 'block'; 
       } else {
-        websiteSpan.textContent = data.Website;
+        // Restore the success HTML structure
+        resultDiv.innerHTML = successResultHTML; 
+        
+        // Populate the results
+        resultDiv.querySelector('.bin-number').textContent   = data.BIN || 'N/A';
+        resultDiv.querySelector('.vendor-name').textContent  = data.Vendor || 'N/A';
+        resultDiv.querySelector('.bank-name').textContent    = data.Bank || 'N/A';
+        resultDiv.querySelector('.bin-type').textContent     = data.Type || 'N/A';
+        resultDiv.querySelector('.card-level').textContent   = data.Level || 'N/A';
+        resultDiv.querySelector('.country-name').textContent = data.Country ? `${data.Country} (${data.CountryCode || 'N/A'})` : 'N/A';
+        
+        resultDiv.style.display = 'block'; // Show populated results
       }
     })
-    .catch(() => {
-      loadingDiv.style.display = 'none';
-      resultDiv.style.display = 'block';
-      resultDiv.innerHTML = `
-        <div style="color:red;text-align:center;padding:20px;">
-          <i class="fas fa-exclamation-circle"></i>
-          Erro ao processar a requisição. Tente novamente.
-        </div>`;
+    .catch((error) => {
+      console.error('BIN Lookup Fetch Error:', error); 
+      // Display the Portuguese error message inside the resultDiv
+      resultDiv.innerHTML = `<div class="bin-lookup-error-message"><i class="fas fa-exclamation-triangle"></i> ${error.message}</div>`; // Display the error message from the throw
+      resultDiv.style.display = 'block'; 
+    })
+    .finally(() => {
+        // Restore button and reset reCAPTCHA
+        submitButton.disabled = false; 
+        submitButton.innerHTML = originalButtonHTML; 
+        if (typeof grecaptcha !== 'undefined') {
+            grecaptcha.reset();
+        }
     });
   });
 });
