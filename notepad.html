@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Mind Droplet - Private Sanctuary for Thought & Self-Discovery | AI-Powered Notes</title>
+    <meta name="description" content="Mind Droplet is your private sanctuary for thoughts and self-discovery. Organize ideas with intelligent AI-powered insights using a minimalist, distraction-free interface.">
+    <meta name="keywords" content="note-taking app, journaling, private notes, AI insights, emotional intelligence, thought organization, productivity app, Android notes app">
+    <meta name="author" content="Mind Droplet">
+    <meta name="theme-color" content="#000000">
+    
+    <meta property="og:title" content="Mind Droplet - Your Private Sanctuary for Thoughts">
+    <meta property="og:description" content="Go beyond ordinary notes. Organize ideas and gain emotional insights with an intelligent, minimalist interface.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://minddroplet.app">
+    <meta property="og:image" content="https://public.youware.com/users-website-assets/prod/e8749cd4-b5ce-4370-a026-bb8f6e7d757e/1e3b937cbd7f41e68bda28532d37fa9d.jpg">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mind Droplet - Private Sanctuary for Thought & Self-Discovery">
+    <meta name="twitter:description" content="Organize ideas and gain emotional insights with our AI-powered note-taking app.">
+    <meta name="twitter:image" content="https://public.youware.com/users-website-assets/prod/e8749cd4-b5ce-4370-a026-bb8f6e7d757e/1e3b937cbd7f41e68bda28532d37fa9d.jpg">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ffffff' width='100' height='100' rx='20'/><text x='50' y='70' font-size='60' font-weight='bold' fill='%23000000' text-anchor='middle'>MD</text></svg>">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "SoftwareApplication",
+        "name": "Mind Droplet",
+        "description": "Private sanctuary for thoughts and self-discovery with AI-powered insights",
+        "url": "https://minddroplet.app",
+        "applicationCategory": "Productivity",
+        "operatingSystem": "Android",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "100"
+        }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            /* Fundo preto sólido */
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            /* Barra de progresso branca */
+            background: #ffffff;
+            width: 0%;
+            z-index: 1000;
+            /* Sombra branca */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            /* Fundo preto translúcido */
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        header.scrolled {
+            /* Fundo preto mais opaco */
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            /* Fundo do ícone branco */
+            background: #ffffff;
+            /* Texto do ícone preto */
+            color: #000000;
+            border-radius: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            /* Sombra branca */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            /* Link cinza */
+            color: #aaaaaa;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            /* Link branco no hover */
+            color: #ffffff;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            /* Linha branca */
+            background: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.75rem;
+            /* Botão branco */
+            background: #ffffff;
+            /* Texto preto */
+            color: #000000;
+            border: none;
+            border-radius: 0.65rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            /* Sombra branca */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            /* Sombra branca */
+            box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            color: #ffffff; /* Hover branco */
+        }
+
+        .mobile-menu {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .cta-button { display: none; }
+            .menu-toggle { display: block !important; }
+            .mobile-menu {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                /* Fundo cinza escuro translúcido */
+                background: rgba(10, 10, 10, 0.95);
+                padding: 1rem;
+                display: none !important;
+                flex-direction: column;
+                gap: 1rem;
+                z-index: 998;
+                backdrop-filter: blur(10px);
+            }
+            .mobile-menu.active { 
+                display: flex !important; 
+                animation: slideDown 0.3s ease-out;
+            }
+            .mobile-menu a { 
+                padding: 0.75rem; 
+                width: 100%; 
+                text-align: center;
+                /* Link cinza */
+                color: #aaaaaa;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+            .mobile-menu a:hover {
+                /* Hover branco */
+                color: #ffffff;
+                /* Fundo cinza claro translúcido */
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 0.5rem;
+            }
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7rem 1.5rem 5rem;
+            /* Fundo cinza bem escuro (quase preto) */
+            background: #111111;
+            margin-top: 60px;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 3.75rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+            animation: slideInLeft 0.8s ease-out;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            /* Texto cinza claro */
+            color: #cccccc;
+            margin-bottom: 2.5rem;
+            animation: slideInLeft 0.8s ease-out 0.2s backwards;
+            line-height: 1.7;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 1.1rem 2.25rem;
+            /* Botão branco */
+            background: #ffffff;
+            /* Texto preto */
+            color: #000000;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 1.05rem;
+            /* Sombra branca */
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            /* Sombra branca */
+            box-shadow: 0 6px 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 4rem;
+            margin-top: 3.5rem;
+            animation: slideInLeft 0.8s ease-out 0.6s backwards;
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            /* Número branco */
+            color: #ffffff;
+        }
+
+        .stat-label {
+            /* Label cinza */
+            color: #888888;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            animation: slideInRight 0.8s ease-out 0.3s backwards;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 1.5rem;
+            /* Sombra branca sutil */
+            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.15);
+            transition: all 0.4s;
+            /* Borda branca sutil */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.03) translateY(-8px);
+            /* Sombra branca sutil */
+            box-shadow: 0 35px 70px rgba(255, 255, 255, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1rem 3rem;
+                margin-top: 80px;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        .features {
+            padding: 7rem 1.5rem;
+            /* Fundo preto */
+            background: #000000;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            animation: fadeInUp 0.8s ease-out;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 1.15rem;
+            /* Texto cinza claro */
+            color: #cccccc;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            line-height: 1.7;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            /* Fundo cinza escuro */
+            background: #1a1a1a;
+            /* Borda cinza */
+            border: 1px solid #444444;
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            transition: all 0.4s;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature-card:hover {
+            /* Fundo cinza escuro (hover) */
+            background: #222222;
+            /* Sombra branca sutil */
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            /* Borda cinza clara */
+            border-color: #666666;
+        }
+
+        .feature-icon {
+            width: 4.5rem;
+            height: 4.5rem;
+            /* Fundo branco */
+            background: #ffffff;
+            /* Texto preto */
+            color: #000000;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.75rem;
+            font-size: 1.75rem;
+            transition: transform 0.4s;
+            /* Sombra branca */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .feature-card p {
+            /* Texto cinza claro */
+            color: #cccccc;
+            line-height: 1.7;
+        }
+
+        .screenshots {
+            padding: 7rem 1.5rem;
+            /* Fundo cinza bem escuro */
+            background: #111111;
+        }
+
+        .carousel-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            /* Fundo cinza escuro */
+            background: #1a1a1a;
+            /* Borda cinza */
+            border: 1px solid #444444;
+            border-radius: 1.75rem;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .carousel-display {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+            /* Navegação cinza */
+            color: #aaaaaa;
+            font-size: 2.5rem;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .carousel-nav:hover {
+            /* Navegação branca (hover) */
+            color: #ffffff;
+            transform: scale(1.15);
+        }
+
+        .carousel-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .carousel-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 1.25rem;
+            /* Sombra branca sutil */
+            box-shadow: 0 20px 50px rgba(255, 255, 255, 0.15);
+            /* Borda branca sutil */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s;
+        }
+
+        .carousel-image:hover {
+            transform: scale(1.02);
+        }
+
+        .carousel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .carousel-description {
+            /* Texto cinza claro */
+            color: #cccccc;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 0.875rem;
+            height: 0.875rem;
+            border-radius: 50%;
+            /* Ponto cinza translúcido */
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            /* Ponto ativo branco */
+            background: #ffffff;
+            width: 2.25rem;
+            border-color: #ffffff;
+            /* Sombra branca */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .testimonials {
+            padding: 7rem 1.5rem;
+            /* Fundo preto */
+            background: #000000;
+        }
+
+        .testimonials-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            /* Fundo cinza escuro */
+            background: #1a1a1a;
+            /* Borda cinza */
+            border: 1px solid #444444;
+            padding: 2.5rem;
+            border-radius: 1.25rem;
+            transition: all 0.4s;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+        .testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+        .testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .testimonial-card:hover {
+            /* Fundo cinza escuro (hover) */
+            background: #222222;
+            /* Sombra branca sutil */
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            /* Borda cinza clara */
+            border-color: #666666;
+        }
+
+        /* Estrela branca */
+        .star { font-size: 1.25rem; color: #ffffff; }
+        .testimonial-text { color: #e2e8f0; margin-bottom: 1.5rem; font-style: italic; }
+        .author-avatar {
+            width: 3.5rem;
+            height: 3.5rem;
+            /* Fundo branco */
+            background: #ffffff;
+            /* Texto preto */
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            /* Sombra branca */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .author-info h4 { color: white; font-weight: 700; }
+        .author-info p { 
+            /* Texto cinza */
+            color: #888888; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+        }
+
+        .rating-summary {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2.5rem;
+            /* Fundo cinza escuro */
+            background: #1a1a1a;
+            /* Borda cinza */
+            border: 1px solid #444444;
+            border-radius: 1.25rem;
+            display: inline-block;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            backdrop-filter: blur(10px);
+        }
+
+        .rating-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            /* Número branco */
+            color: #ffffff;
+        }
+
+        .faq {
+            padding: 7rem 1.5rem;
+            /* Fundo cinza bem escuro */
+            background: #111111;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            /* Borda cinza */
+            border: 1px solid #444444;
+            border-radius: 1rem;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            /* Fundo cinza escuro */
+            background: #1a1a1a;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .faq-question {
+            background: transparent;
+            padding: 1.75rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .faq-question:hover { 
+            /* Fundo branco sutil (hover) */
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-question h3 { 
+            color: white; 
+            font-size: 1.15rem; 
+            font-weight: 700;
+        }
+
+        .faq-arrow { 
+            /* Seta branca */
+            color: #ffffff; 
+            font-size: 1.25rem; 
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-arrow { 
+            transform: rotate(180deg); 
+        }
+
+        .faq-answer {
+            background: transparent;
+            padding: 0 1.75rem 1.75rem;
+            /* Texto cinza claro */
+            color: #cccccc;
+            /* Borda cinza */
+            border-top: 1px solid #333333;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active { 
+            display: block; 
+        }
+
+        .faq-contact { 
+            text-align: center; 
+            margin-top: 3rem; 
+            /* Texto cinza claro */
+            color: #cccccc; 
+        }
+
+        .faq-contact a { 
+            /* Link branco */
+            color: #ffffff; 
+            text-decoration: none; 
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .faq-contact a:hover { 
+            /* Link cinza (hover) */
+            color: #bbbbbb;
+            text-decoration: underline;
+        }
+
+        .cta-section {
+            padding: 8rem 1.5rem;
+            /* Fundo preto */
+            background: #000000;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            /* Texto cinza claro */
+            color: #cccccc;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            line-height: 1.7;
+        }
+
+        .cta-subtitle {
+            /* Texto cinza */
+            color: #888888;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+            font-weight: 500;
+        }
+
+        footer {
+            /* Fundo cinza bem escuro */
+            background: #111111;
+            /* Borda cinza */
+            border-top: 1px solid #444444;
+            padding: 4rem 1.5rem 2rem;
+            /* Texto cinza claro */
+            color: #cccccc;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 { 
+            color: white; 
+            font-weight: 700; 
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section a { 
+            display: block; 
+            /* Link cinza claro */
+            color: #cccccc; 
+            text-decoration: none; 
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .footer-section a:hover { 
+            /* Link branco (hover) */
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .footer-divider { 
+            /* Borda cinza */
+            border-top: 1px solid #444444; 
+            margin: 2.5rem 0;
+        }
+
+        .footer-bottom { 
+            text-align: center; 
+            /* Texto cinza */
+            color: #888888; 
+            font-size: 0.9rem;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-display {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                min-height: auto;
+            }
+            .carousel-nav { display: none; }
+            .carousel-container { padding: 2rem 1rem; }
+            .carousel-controls {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                margin-top: 1.5rem;
+            }
+            .carousel-controls button {
+                width: 2.75rem;
+                height: 2.75rem;
+                border-radius: 50%;
+                /* Fundo cinza translúcido */
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                /* Borda cinza */
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                font-size: 1.25rem;
+                transition: all 0.3s;
+            }
+            .carousel-controls button:hover {
+                /* Botão branco (hover) */
+                background: #ffffff;
+                /* Texto preto (hover) */
+                color: #000000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <header id="header">
+        <div class="header-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon">MD</div>
+                <span>Mind Droplet</span>
+            </a>
+            <nav id="nav">
+                <a href="#features">Features</a>
+                <a href="#reviews">Reviews</a>
+                <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer">Download</a>
+            </nav>
+            <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer" class="cta-button">
+                <span>⬇️</span> Download
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#features">Features</a>
+            <a href="#reviews">Reviews</a>
+            <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer">Download</a>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your Private Sanctuary for Thought and Self-Discovery</h1>
+                <p>Go beyond ordinary notes. Organize ideas and gain emotional insights with an intelligent, minimalist interface designed for thoughtful minds.</p>
+                <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    <span>⬇️</span> Download on Google Play
+                </a>
+                <div class="hero-stats">
+                    <div><div class="stat-number">4.8★</div><div class="stat-label">Rating</div></div>
+                    <div><div class="stat-number">10k+</div><div class="stat-label">Users</div></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="./image01.png" alt="Mind Droplet App Interface - Private Notes Application" loading="lazy" width="400" height="500">
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Why Mind Droplet Stands Out</h2>
+            <p>Experience a note-taking app for reflective people who value clarity and insight.</p>
+        </div>
+        <div class="features-container">
+            <article class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Distraction-Free Focus</h3>
+                <p>Clean interface with Markdown support for complete formatting control. Write without interruption.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Intelligent Organization</h3>
+                <p>Thought Timeline and Personalized Categories for better structure and easy retrieval of ideas.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Data-Driven Self-Awareness</h3>
+                <p>Writing Analysis and visual reports reveal emotional patterns and help you understand yourself better.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Writing Refinement</h3>
+                <p>Intelligent Correction for polished, clear notes. Enhance your writing quality automatically.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="screenshots">
+        <div class="section-header">
+            <h2>Experience the Interface</h2>
+            <p>Explore Mind Droplet's beautiful and intuitive design.</p>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-display">
+                <button class="carousel-nav" onclick="previousSlide()" aria-label="Previous Screenshot">❮</button>
+                <div class="carousel-main">
+                    <img id="carouselImage" src="./image01.png" alt="Mind Droplet clean interface screenshot" class="carousel-image" loading="lazy">
+                    <h3 class="carousel-title" id="carouselTitle">Clean Interface</h3>
+                    <p class="carousel-description" id="carouselDesc">Distraction-free writing</p>
+                    <div class="carousel-controls">
+                        <button onclick="previousSlide()" aria-label="Previous">❮</button>
+                        <button onclick="nextSlide()" aria-label="Next">❯</button>
+                    </div>
+                </div>
+                <button class="carousel-nav" onclick="nextSlide()" aria-label="Next Screenshot">❯</button>
+            </div>
+            <div class="carousel-dots">
+                <button class="dot active" onclick="goToSlide(0)" aria-label="Screenshot 1"></button>
+                <button class="dot" onclick="goToSlide(1)" aria-label="Screenshot 2"></button>
+                <button class="dot" onclick="goToSlide(2)" aria-label="Screenshot 3"></button>
+                <button class="dot" onclick="goToSlide(3)" aria-label="Screenshot 4"></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials" id="reviews">
+        <div class="section-header">
+            <h2>Loved by Thoughtful People</h2>
+            <p>See what our users say about their Mind Droplet journey.</p>
+        </div>
+        <div class="testimonials-grid">
+            <article class="testimonial-card">
+                <div style="margin-bottom: 1rem;"><span class="star">★★★★★</span></div>
+                <p class="testimonial-text">"Mind Droplet transformed how I track my emotional journey. The insights are incredibly accurate and helpful."</p>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div class="author-avatar">SM</div>
+                    <div class="author-info">
+                        <h4>Sarah Mitchell</h4>
+                        <p>Writer & Therapist</p>
+                    </div>
+                </div>
+            </article>
+            <article class="testimonial-card">
+                <div style="margin-bottom: 1rem;"><span class="star">★★★★★</span></div>
+                <p class="testimonial-text">"The minimalist design perfectly complements my thoughts. I write more clearly with this app than any other."</p>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div class="author-avatar">JC</div>
+                    <div class="author-info">
+                        <h4>James Chen</h4>
+                        <p>Product Designer</p>
+                    </div>
+                </div>
+            </article>
+            <article class="testimonial-card">
+                <div style="margin-bottom: 1rem;"><span class="star">★★★★★</span></div>
+                <p class="testimonial-text">"My mental clarity improved dramatically. The timeline feature helps me see patterns I never noticed before."</p>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div class="author-avatar">ED</div>
+                    <div class="author-info">
+                        <h4>Emma Davis</h4>
+                        <p>Student</p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="rating-summary">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <span class="rating-number">4.8</span>
+                <span style="color: #ffffff;">★★★★★</span>
+            </div>
+            <p>Based on 100+ reviews from our community</p>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know about Mind Droplet.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question active" onclick="toggleFAQ(0)">
+                    <h3>Is Mind Droplet truly private?</h3>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer active">
+                    Yes. Your thoughts are completely private and encrypted. We never store data without your consent. All your notes remain on your device by default, giving you complete control.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(1)">
+                    <h3>Does Mind Droplet cost anything?</h3>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    Mind Droplet is completely free to download and use. We believe everyone deserves access to tools that improve self-awareness and mental clarity.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(2)">
+                    <h3>Can I export my notes?</h3>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. You can export your notes in multiple formats, including Markdown and PDF, ensuring you always have control over your data.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(3)">
+                    <h3>How does the Writing Analysis feature work?</h3>
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    Our AI-powered analysis identifies emotional patterns, sentiment trends, and helps you understand your writing style over time with beautiful visual reports.
+                </div>
+            </div>
+        </div>
+        <div class="faq-contact">
+            <p>Still have questions?</p>
+            <a href="mailto:contactappme@gmail.com">Contact our support team</a>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Stop Simply Taking Notes.<br>Start Evolving Your Mind.</h2>
+            <p>Join thousands of thoughtful people discovering themselves through intelligent note-taking.</p>
+            <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                <span>⬇️</span> Download on Google Play
+            </a>
+            <p class="cta-subtitle">Free to download. Private by design. Your thoughts, your sanctuary.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div style="font-weight: 700; margin-bottom: 0.75rem; color: white; font-size: 1.15rem;">Mind Droplet</div>
+                    <p style="font-size: 0.9rem; color: #cccccc;">Your private sanctuary for thought and self-discovery.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact & Download</h4>
+                    <a href="mailto:contactappme@gmail.com">contactappme@gmail.com</a>
+                    <a href="https://play.google.com/store/apps/details?id=a.b.minddroplet" target="_blank" rel="noopener noreferrer">Google Play Store</a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p>© 2025 Mind Droplet. All rights reserved. Made with care for thoughtful minds.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const screenshots = [
+            { image: '1.png', title: 'Clean Interface', description: 'Distraction-free writing experience' },
+            { image: '2.png', title: 'Smart Organization', description: 'Organize with personalized categories' },
+            { image: '3.png', title: 'Writing Analysis', description: 'Track emotional patterns' },
+            { image: '4.png', title: 'Timeline Visualization', description: 'See your thoughts evolve' }
+        ];
+        let currentSlide = 0;
+
+        function updateCarousel() {
+            const slide = screenshots[currentSlide];
+            document.getElementById('carouselImage').src = slide.image;
+            document.getElementById('carouselTitle').textContent = slide.title;
+            document.getElementById('carouselDesc').textContent = slide.description;
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % screenshots.length;
+            updateCarousel();
+        }
+
+        function previousSlide() {
+            currentSlide = (currentSlide - 1 + screenshots.length) % screenshots.length;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function toggleFAQ(index) {
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach((item, i) => {
+                if (i !== index) {
+                    item.querySelector('.faq-question').classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+            items[index].querySelector('.faq-question').classList.toggle('active');
+            items[index].querySelector('.faq-answer').classList.toggle('active');
+        }
+
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        });
+
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
